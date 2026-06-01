@@ -1,4 +1,4 @@
-import { betterAuth } from 'better-auth'
+import { betterAuth, OAuth2Tokens } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import {
   anonymous,
@@ -14,6 +14,7 @@ import { oauthProvider } from '@better-auth/oauth-provider'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { generateId } from '@quackback/ids'
 import { config } from '@/lib/server/config'
+import { decodeJwt } from 'jose'
 
 // Plugin callbacks (magicLink, emailOTP) stash tokens here instead of
 // emailing — callers that own the email template (invitations,
@@ -59,6 +60,25 @@ let _auth: AuthInstance | null = null
 // the current value (via the existing settings cache, no extra DB
 // round-trip). Mismatch → resetAuth(), other pods' writes propagate.
 let _authConfigVersion: number | null = null
+
+function getUserInfo(tokens: OAuth2Tokens): { id: string; name: string } | null {
+  if (tokens.idToken) {
+    const decoded = decodeJwt(tokens.idToken) as {
+      sub: string
+      battletag: string
+    }
+    if (decoded) {
+      if (decoded.sub && decoded.battletag) {
+        return {
+          id: decoded.sub,
+          name: decoded.battletag,
+        }
+      }
+    }
+  }
+
+  return null
+}
 
 async function createAuth() {
   // Dynamic imports to prevent client bundling
@@ -258,12 +278,7 @@ async function createAuth() {
         ...(creds.tokenUrl && { tokenUrl: creds.tokenUrl }),
         scopes: scopeStr.split(/\s+/).filter(Boolean),
         mapProfileToUser: mapProfileLocale,
-	getUserInfo: ({ user }) => {
-		return {
-			id: user.id,
-			name: user.battletag
-		}
-	}
+        getUserInfo: getUserInfo,
       })
       trustedProviders.push(provider.id)
     } else {
