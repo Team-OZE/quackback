@@ -62,18 +62,16 @@ let _auth: AuthInstance | null = null
 let _authConfigVersion: number | null = null
 
 function getUserInfo(tokens: OAuth2Tokens): { id: string; name: string } | null {
-  console.log(tokens)
   if (tokens.idToken) {
     const decoded = decodeJwt(tokens.idToken) as {
       sub: string
       battletag: string
     }
-    console.log(decoded)
     if (decoded) {
-      if (decoded.sub && decoded.battletag) {
+      if (decoded.sub && decoded.battle_tag) {
         return {
           id: decoded.sub,
-          name: decoded.battletag,
+          name: decoded.battle_tag,
         }
       }
     }
