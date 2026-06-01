@@ -258,6 +258,12 @@ async function createAuth() {
         ...(creds.tokenUrl && { tokenUrl: creds.tokenUrl }),
         scopes: scopeStr.split(/\s+/).filter(Boolean),
         mapProfileToUser: mapProfileLocale,
+	getUserInfo: ({ user }) => {
+		return {
+			id: user.id,
+			name: user.battletag
+		}
+	}
       })
       trustedProviders.push(provider.id)
     } else {
