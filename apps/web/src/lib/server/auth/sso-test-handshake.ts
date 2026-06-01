@@ -269,6 +269,34 @@ export async function runHandshake(input: HandshakeInput): Promise<HandshakeResu
         steps,
       }
     }
+    const rawN = "ALI7m99+OTGF6XqLSq/8eaWKbmPevIZQOEVS2mf7Qow0Ynus7qwqsL+w9ZbKjaIWfIKOE2V4lU0Dfj7sHSxpomfFv5Ck5/B5J/RzWywraiXeVISc0CY9UpNfgwRhLKTD5rarU0Db2BS58KpfRWHdXCHiANPn1aGLEhCUZE072YFY51Dyr2dQRrqaAPzyB125hYf67XS0u0JISHURsHe0I6P6Dk9wY5z3aH+EGalWzyQfgWRxgqI7Wgp1BcCWOx9xVHaJNFlDmtiOMQ4mGA1B8xBCwQ1Dgd0Tb01rBX/8T4B514AKowsbCbK2yYHoEe9z9s4zZEYFP61YO1DLenOktE0="
+const normalizedN = rawN.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+
+try {
+  await crypto.subtle.importKey(
+    'jwk',
+    { kty: 'RSA', e: 'AQAB', n: rawN, alg: 'RS256', use: 'sig' },
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false,
+    ['verify']
+  )
+  console.log('[debug] raw n: imported OK')
+} catch (e) {
+  console.log('[debug] raw n: FAILED', e)
+}
+
+try {
+  await crypto.subtle.importKey(
+    'jwk',
+    { kty: 'RSA', e: 'AQAB', n: normalizedN, alg: 'RS256', use: 'sig' },
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false,
+    ['verify']
+  )
+  console.log('[debug] normalized n: imported OK')
+} catch (e) {
+  console.log('[debug] normalized n: FAILED', e)
+}
     const jwks = createLocalJWKSet(
       (await jwksRes.json()) as Parameters<typeof createLocalJWKSet>[0]
     )
