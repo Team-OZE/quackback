@@ -232,7 +232,7 @@ export async function runHandshake(input: HandshakeInput): Promise<HandshakeResu
       steps,
     }
   }
-  steps.push({ ok: true, stage: 'token-exchange', label: 'Token exchange succeeded' })
+  steps.push({ ok: true, stage: 'token-exchange', label: 'Token exchange succeeded. Got token: '+tokens.id_token })
 
   let header: ReturnType<typeof decodeProtectedHeader>
   try {
