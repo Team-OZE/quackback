@@ -511,7 +511,7 @@ export function PortalAuthFormInline({
           </>
         )}
 
-        <form onSubmit={continueFromEmail} className="space-y-4">
+        {/* <form onSubmit={continueFromEmail} className="space-y-4">
           {error && <FormError message={error} />}
           <div className="space-y-2">
             <label htmlFor="inline-email" className="text-sm font-medium">
@@ -540,7 +540,7 @@ export function PortalAuthFormInline({
               <>Continue &rarr;</>
             )}
           </Button>
-        </form>
+        </form> */}
 
         {onModeSwitch && (
           <p className="text-center text-sm text-muted-foreground">
