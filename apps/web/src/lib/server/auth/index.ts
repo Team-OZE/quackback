@@ -61,17 +61,21 @@ let _auth: AuthInstance | null = null
 // round-trip). Mismatch → resetAuth(), other pods' writes propagate.
 let _authConfigVersion: number | null = null
 
-function getUserInfo(tokens: OAuth2Tokens): { id: string; name: string } | null {
+function getUserInfo(
+  tokens: OAuth2Tokens
+): { id: string; name: string; emailVerified: boolean; email: string } | null {
   if (tokens.idToken) {
     const decoded = decodeJwt(tokens.idToken) as {
       sub: string
-      battletag: string
+      battle_tag: string
     }
     if (decoded) {
       if (decoded.sub && decoded.battle_tag) {
         return {
           id: decoded.sub,
           name: decoded.battle_tag,
+          email: `bnet${decoded.sub}@ext.team-oze.org`,
+          emailVerified: true,
         }
       }
     }
