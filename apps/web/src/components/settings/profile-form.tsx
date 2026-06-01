@@ -224,58 +224,58 @@ export function ProfileForm({ user }: ProfileFormProps) {
         </div>
       </div>
 
-      {/* Personal Information */}
-      <form onSubmit={handleSubmit}>
-        <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm">
-          <h2 className="font-medium mb-1">Personal Information</h2>
-          <p className="text-sm text-muted-foreground mb-4">Update your personal details</p>
-          <div className="space-y-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium">
-                  Full name
-                </label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={isSubmitting}
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">
-                  Email
-                </label>
-                <Input
-                  id="email"
-                  type="email"
-                  defaultValue={user.email ?? ''}
-                  disabled
-                  placeholder="No email"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <ArrowPathIcon className="h-4 w-4 animate-spin mr-2" />
-                    Saving...
-                  </>
-                ) : (
-                  'Save changes'
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </form>
+      {/*/!* Personal Information *!/*/}
+      {/*<form onSubmit={handleSubmit}>*/}
+      {/*  <div className="rounded-xl border border-border/50 bg-card p-6 shadow-sm">*/}
+      {/*    <h2 className="font-medium mb-1">Personal Information</h2>*/}
+      {/*    <p className="text-sm text-muted-foreground mb-4">Update your personal details</p>*/}
+      {/*    <div className="space-y-4">*/}
+      {/*      <div className="grid gap-4 sm:grid-cols-2">*/}
+      {/*        <div className="space-y-2">*/}
+      {/*          <label htmlFor="name" className="text-sm font-medium">*/}
+      {/*            Full name*/}
+      {/*          </label>*/}
+      {/*          <Input*/}
+      {/*            id="name"*/}
+      {/*            value={name}*/}
+      {/*            onChange={(e) => setName(e.target.value)}*/}
+      {/*            disabled={isSubmitting}*/}
+      {/*          />*/}
+      {/*        </div>*/}
+      {/*        <div className="space-y-2">*/}
+      {/*          <label htmlFor="email" className="text-sm font-medium">*/}
+      {/*            Email*/}
+      {/*          </label>*/}
+      {/*          <Input*/}
+      {/*            id="email"*/}
+      {/*            type="email"*/}
+      {/*            defaultValue={user.email ?? ''}*/}
+      {/*            disabled*/}
+      {/*            placeholder="No email"*/}
+      {/*          />*/}
+      {/*        </div>*/}
+      {/*      </div>*/}
+      {/*      <div className="flex justify-end">*/}
+      {/*        <Button type="submit" disabled={isSubmitting}>*/}
+      {/*          {isSubmitting ? (*/}
+      {/*            <>*/}
+      {/*              <ArrowPathIcon className="h-4 w-4 animate-spin mr-2" />*/}
+      {/*              Saving...*/}
+      {/*            </>*/}
+      {/*          ) : (*/}
+      {/*            'Save changes'*/}
+      {/*          )}*/}
+      {/*        </Button>*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</form>*/}
 
-      {/* Password — hidden for SSO-enforced users (the IdP manages the
-       *  credential; surfacing a password form would be misleading). */}
-      {!ssoEnforced && (
-        <PasswordForm hasPassword={hasPassword} onSaved={() => router.invalidate()} />
-      )}
+      {/*/!* Password — hidden for SSO-enforced users (the IdP manages the*/}
+      {/* *  credential; surfacing a password form would be misleading). *!/*/}
+      {/*{!ssoEnforced && (*/}
+      {/*  <PasswordForm hasPassword={hasPassword} onSaved={() => router.invalidate()} />*/}
+      {/*)}*/}
 
       {/* Image Cropper Modal */}
       {cropImageSrc && (

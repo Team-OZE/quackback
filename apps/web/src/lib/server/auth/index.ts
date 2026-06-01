@@ -320,7 +320,7 @@ async function createAuth() {
 
     // Disable the JWT plugin's /token endpoint — conflicts with OAuth's /oauth2/token
     // Does NOT affect magicLink or session management
-    disabledPaths: ['/token'],
+    disabledPaths: ['/token', '/update-user'],
 
     database: drizzleAdapter(db, {
       provider: 'pg',
